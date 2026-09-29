@@ -1,0 +1,131 @@
+{% extends "officer/base.html" %}
+
+{% block title %}Event Signup | G3 Industries{% endblock %}
+
+{% macro meta_icon(kind) %}
+  {% if kind == "calendar" %}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h2v2h6V2h2v2h3v18H4V4h3V2Zm11 8H6v10h12V10Z"/></svg>
+  {% elif kind == "clock" %}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 5v5.1l3.4 2-.9 1.5-4.5-2.7V7h2Z"/></svg>
+  {% else %}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>
+  {% endif %}
+{% endmacro %}
+
+{% block content %}
+<a class="back-control" href="{{ url_for('opportunities') }}">← Back to Opportunities</a>
+
+{% if signup and signup.signed_up %}
+  <section class="event-detail-shell success-shell">
+    <div class="success-panel">
+      <div class="success-mark">✓</div>
+      <p class="section-kicker">YOU'RE SIGNED UP</p>
+      <h1>{{ event.detail_title|default(event.name) }}</h1>
+      <div class="success-meta">
+        <span>{{ event.day_label }}</span>
+        <span>{{ event.venue|default(event.location) }}</span>
+      </div>
+    </div>
+
+    <section class="detail-card assignment-summary">
+      <p class="section-kicker">YOUR ASSIGNMENT</p>
+      <h2>{{ signup.provisional_assignment_name }}</h2>
+      <span class="status-badge provisional">PROVISIONAL ASSIGNMENT</span>
+      <div class="summary-grid">
+        <div>
+          <span>REPORT TIME</span>
+          <strong>7:45 AM</strong>
+        </div>
+        <div>
+          <span>REPORT TO</span>
+          <strong>Delaware Stadium Volunteer Check-In</strong>
+        </div>
+      </div>
+      <p class="simulated-copy">Confirmation sent to your email and mobile number.</p>
+      <p class="detail-note">Assignments may be adjusted by Special Olympics Delaware based on event needs.</p>
+    </section>
+
+    <div class="success-actions">
+      <a class="secondary-button compact" href="{{ url_for('opportunities') }}">BACK TO OPPORTUNITIES</a>
+      <button class="primary-button inline-action" type="button" data-toast="My Events is coming in the next demo section.">VIEW MY EVENTS</button>
+    </div>
+  </section>
+{% else %}
+  <section class="event-detail-shell">
+    <section class="event-hero detail-card">
+      <div>
+        <div class="event-title-row detail-title-row">
+          <h1>{{ event.detail_title|default(event.name) }}</h1>
+          {% if event.featured %}<span class="event-tag">Pilot Event</span>{% endif %}
+        </div>
+        <div class="detail-meta-grid">
+          <span>{{ meta_icon("calendar") }}{{ event.day_label }}</span>
+          <span>{{ meta_icon("clock") }}{{ event.time }}</span>
+          <span>{{ meta_icon("location") }}{{ event.venue|default(event.location) }}<br>{{ event.city_state|default("") }}</span>
+        </div>
+        <p class="event-description">{{ event.description|default("Support Special Olympics Delaware athletes, volunteers, families, and event operations.") }}</p>
+      </div>
+      <aside class="contact-card">
+        <span>Point of Contact</span>
+        <strong>{{ event.point_of_contact.name|default("Special Olympics Delaware") }}</strong>
+        <small>{{ event.point_of_contact.organization|default("Event Operations") }}</small>
+      </aside>
+    </section>
+
+    <section class="detail-card">
+      <p class="section-kicker">YOUR ROLE</p>
+      <p class="role-copy">Law enforcement volunteers support event operations, athlete movement, awards areas, crowd flow, and other assignments identified by Special Olympics Delaware.</p>
+    </section>
+
+    <form method="post" action="{{ url_for('opportunity_detail', event_id=event.id) }}" class="signup-form">
+      <section class="detail-card">
+        <div class="section-heading-row">
+          <div>
+            <p class="section-kicker">PREFERRED ASSIGNMENT</p>
+            <p class="section-support">Choose where you'd prefer to serve. Your assignment may be adjusted by Special Olympics Delaware based on event needs.</p>
+          </div>
+        </div>
+
+        <div class="assignment-grid" data-assignment-group>
+          {% for assignment in event.assignments %}
+            <div class="assignment-option">
+              <input
+                class="assignment-radio"
+                type="radio"
+                id="assignment-{{ assignment.id }}"
+                name="preferred_assignment"
+                value="{{ assignment.id }}"
+                {% if assignment.id == selected_assignment_id %}checked{% endif %}
+              >
+              <label class="assignment-card" for="assignment-{{ assignment.id }}" data-assignment-card>
+                <span class="selected-indicator">✓</span>
+                <span class="status-badge {{ assignment.officer_status|lower|replace(' ', '-') }}">{{ assignment.officer_status }}</span>
+                <strong>{{ assignment.name }}</strong>
+                <small>{{ assignment.description }}</small>
+              </label>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="detail-card">
+        <p class="section-kicker">BEFORE YOU ARRIVE</p>
+        <div class="arrival-grid">
+          {% for item in event.before_arrive %}
+            <div class="arrival-item">
+              <span>{{ item.label }}</span>
+              <strong>{{ item.value }}</strong>
+              {% if item.detail %}<small>{{ item.detail }}</small>{% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+
+      <section class="confirm-panel detail-card">
+        <p>Your preferred assignment will be used as your provisional assignment. Special Olympics Delaware may adjust assignments based on event needs.</p>
+        <button class="primary-button confirm-button" type="submit">CONFIRM SIGNUP</button>
+      </section>
+    </form>
+  </section>
+{% endif %}
+{% endblock %}

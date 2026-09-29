@@ -49,7 +49,7 @@ document.addEventListener('keydown', (event) => {
 document.querySelectorAll('[data-demo-reset]').forEach((button) => {
   button.addEventListener('click', () => {
     closeMenus();
-    window.location.href = '/opportunities';
+    window.location.href = '/demo/reset';
   });
 });
 

@@ -6,7 +6,9 @@ Flask-based functional demo for the Special Olympics Delaware volunteer manageme
 
 **Page 1: Officer Access** is approved.
 
-**Page 2: Volunteer Opportunities** is ready for review.
+**Page 2: Volunteer Opportunities** is approved.
+
+**Page 3: Fall Festival Event Detail and Signup Flow** is ready for review.
 
 Included demo flow:
 
@@ -19,7 +21,17 @@ Included demo flow:
 - Officer opportunities dashboard
 - Working opportunity filters
 - Mock staffing coverage data
-- Temporary event signup placeholder for Page 3
+- Fall Festival event detail
+- One-page assignment preference signup
+- Session-backed demo signup state
+
+## Product assumptions for handoff
+
+DEMO ASSUMPTION: For the current prototype, an officer's selected assignment preference becomes their provisional assignment upon signup. SODE coordinators will retain the ability to reassign officers before or during an event. Final assignment methodology requires validation with SODE event coordinators.
+
+Exact assignment staffing numbers are intentionally coordinator-facing. Officers see simplified need statuses in the current prototype.
+
+Shift selection and checkout/hour-credit rules remain unresolved and are intentionally not implemented.
 
 ## Run locally
 

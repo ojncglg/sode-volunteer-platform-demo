@@ -8,6 +8,75 @@
       "day_label": "Saturday, October 31, 2026",
       "time": "8:00 AM to 4:00 PM",
       "location": "University of Delaware, Newark, Delaware",
+      "venue": "University of Delaware",
+      "city_state": "Newark, Delaware",
+      "detail_title": "Fall Festival 2026",
+      "description": "Join Special Olympics Delaware for Fall Festival and support athletes, families, volunteers, and event operations throughout the day.",
+      "point_of_contact": {
+        "name": "Kyle Rittenhouse",
+        "organization": "Special Olympics Delaware"
+      },
+      "before_arrive": [
+        {
+          "label": "REPORT TIME",
+          "value": "7:45 AM"
+        },
+        {
+          "label": "REPORT LOCATION",
+          "value": "Delaware Stadium Volunteer Check-In",
+          "detail": "University of Delaware"
+        },
+        {
+          "label": "ATTIRE",
+          "value": "Department uniform or approved agency attire"
+        },
+        {
+          "label": "BRING",
+          "value": "Agency identification and weather-appropriate gear"
+        },
+        {
+          "label": "PARKING",
+          "value": "Volunteer parking instructions will be included in your confirmation."
+        }
+      ],
+      "assignments": [
+        {
+          "id": "no-preference",
+          "name": "No Preference",
+          "description": "Put me where I'm needed most.",
+          "officer_status": "FLEXIBLE"
+        },
+        {
+          "id": "bocce-awards",
+          "name": "Bocce Awards",
+          "description": "Support the awards area, athlete movement, and orderly awards operations.",
+          "officer_status": "PRIORITY NEED"
+        },
+        {
+          "id": "sports-arena",
+          "name": "Sports Arena",
+          "description": "Support athlete and spectator flow and assist event staff with arena operations.",
+          "officer_status": "OFFICERS NEEDED"
+        },
+        {
+          "id": "main-awards",
+          "name": "Main Awards",
+          "description": "Support athlete staging, awards presentations, and movement through the main awards area.",
+          "officer_status": "COVERAGE MET"
+        },
+        {
+          "id": "ldr-awards",
+          "name": "LDR Awards",
+          "description": "Assist with awards operations and athlete movement for long-distance running events.",
+          "officer_status": "COVERAGE MET"
+        },
+        {
+          "id": "cafeteria",
+          "name": "Cafeteria",
+          "description": "Support participant flow and general operations in the dining area.",
+          "officer_status": "COVERAGE MET"
+        }
+      ],
       "minimum_needed": 8,
       "signed_up": 12,
       "maximum_capacity": null,

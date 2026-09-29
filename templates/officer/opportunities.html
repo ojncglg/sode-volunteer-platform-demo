@@ -61,7 +61,7 @@
             {{ event.location }}
           </span>
         </div>
-        <div class="staffing-block">
+        <div class="staffing-block {{ 'met' if event.signed_up >= event.minimum_needed else 'needed' }}">
           <div class="staffing-copy">
             <span>{{ event.staffing_summary }}</span>
             <strong>{{ event.staffing_status }}</strong>
