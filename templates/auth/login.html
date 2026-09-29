@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Officer Access | G3 Industries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body class="auth-page">
+  <main class="auth-shell">
+    <section class="access-card" aria-live="polite">
+      <header class="access-header">
+        <div class="badge-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2 19 5v6c0 5-3.2 8.8-7 11-3.8-2.2-7-6-7-11V5l7-3Zm0 4.2L8.5 7.7V11c0 3.1 1.7 5.7 3.5 7.1 1.8-1.4 3.5-4 3.5-7.1V7.7L12 6.2Z"/></svg>
+        </div>
+        <div>
+          <h1>Officer Access</h1>
+          <p>Secure sign-in for unit personnel</p>
+        </div>
+        <span class="demo-badge">DEMO</span>
+      </header>
+
+      <div class="access-body">
+        <div id="login-panel" class="panel">
+          {% if request.args.get('verified') %}
+          <div class="status-message success">Demo account verified. You can sign in now.</div>
+          {% endif %}
+          <form method="post" action="{{ url_for('login') }}">
+            <label for="username">Username</label>
+            <div class="input-wrap">
+              <input id="username" name="username" type="text" placeholder="Enter your ID or email" autocomplete="username" required>
+              <svg class="input-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7 8a7 7 0 0 0-14 0h14Z"/></svg>
+            </div>
+
+            <label for="password">Password</label>
+            <div class="input-wrap">
+              <input id="password" name="password" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+            </div>
+            <div class="field-action"><button type="button" class="text-link" data-toast="Demo mode: password reset link simulated.">Forgot Password?</button></div>
+
+            <button class="primary-button" type="submit">Login</button>
+          </form>
+          <div class="create-row">New to SODE volunteering? <button type="button" class="text-link" id="show-signup">Create account</button></div>
+        </div>
+
+        <div id="signup-panel" class="panel hidden">
+          <div class="panel-heading">
+            <h2>Create Account</h2>
+            <p>Use your official agency information.</p>
+          </div>
+          <form method="post" action="{{ url_for('signup') }}">
+            <div class="two-column">
+              <div><label for="first_name">First name</label><input id="first_name" name="first_name" type="text" required></div>
+              <div><label for="last_name">Last name</label><input id="last_name" name="last_name" type="text" required></div>
+            </div>
+            <label for="email">Official email</label>
+            <input id="email" name="email" type="email" placeholder="name@agency.gov" required>
+            <label for="agency">Agency</label>
+            <select id="agency" name="agency" required>
+              <option value="" selected disabled>Select your agency</option>
+              {% for agency in agencies %}<option value="{{ agency }}">{{ agency }}</option>{% endfor %}
+            </select>
+            <button class="primary-button" type="submit">Create Account</button>
+          </form>
+          <button type="button" class="back-link" id="show-login">Back to sign in</button>
+        </div>
+
+        <div id="verification-panel" class="panel hidden">
+          <div class="verification-icon">✓</div>
+          <div class="panel-heading centered">
+            <h2>Verification Email Sent</h2>
+            <p>We sent a verification link to your official email. Your account activates after you open the link.</p>
+          </div>
+          <div class="demo-control">
+            <span>Demo shortcut</span>
+            <p>Skip the inbox during a live walkthrough.</p>
+            <a class="secondary-button" href="{{ url_for('demo_verify') }}">Simulate verification click</a>
+          </div>
+          <button type="button" class="back-link" id="verification-back">Back to sign in</button>
+        </div>
+
+        <p class="authorized-copy">Authorized personnel only. Access is logged.</p>
+      </div>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+  <script>window.initialAuthState = {{ request.args.get('state', '')|tojson }};</script>
+  <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+</body>
+</html>
