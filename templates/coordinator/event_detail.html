@@ -1,0 +1,180 @@
+{% extends "coordinator/base.html" %}
+
+{% block title %}{{ event.detail_title|default(event.name) }} | Coordinator{% endblock %}
+
+{% block content %}
+<a class="back-control" href="{{ url_for('coordinator_dashboard') }}">Back to Events</a>
+
+{% if not is_fall_festival %}
+  <section class="detail-card coordinator-placeholder-detail">
+    <p class="section-kicker">EVENT DETAIL</p>
+    <h1>{{ event.detail_title|default(event.name) }}</h1>
+    <div class="my-event-meta">
+      <span>{{ event.day_label }}</span>
+      <span>{{ event.time }}</span>
+      <span>{{ event.location }}</span>
+    </div>
+    <p class="section-support">Coordinator detail tools for this event are staged for a later demo pass.</p>
+  </section>
+{% else %}
+  <section class="detail-card coordinator-event-hero">
+    <div>
+      <p class="section-kicker">EVENT DETAIL</p>
+      <h1>FALL FESTIVAL 2026</h1>
+      <div class="detail-meta-grid">
+        <span>{{ event.day_label }}</span>
+        <span>{{ event.time }}</span>
+        <span>{{ event.location }}</span>
+        <span>{{ event.point_of_contact.name }} | {{ event.point_of_contact.organization }}</span>
+      </div>
+    </div>
+    <div class="overall-staffing {{ 'filled' if needed_total == 0 else 'needs-officers' }}">
+      <span>OVERALL STAFFING</span>
+      <strong>{{ assigned_total }} / {{ required_total }}</strong>
+      <small>{{ needed_label }}</small>
+    </div>
+  </section>
+
+  <section class="detail-card">
+    <div class="section-heading-row">
+      <div>
+        <p class="section-kicker">STAFFING COVERAGE</p>
+        <p class="section-support">Assignment areas and current officer coverage.</p>
+      </div>
+    </div>
+
+    <div class="staffing-area-grid">
+      {% for area in staffing_areas %}
+        <article class="staffing-area-card {{ area.status_class }}">
+          <span>{{ area.name }}</span>
+          <strong>{{ area.assigned }} / {{ area.required }}</strong>
+          <small>{{ area.status }}</small>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+
+  <section class="detail-card">
+    {% if request.args.get("assigned") %}
+      <div class="status-message success coordinator-status-message">Demo volunteer assigned. Staffing coverage updated.</div>
+    {% endif %}
+    <div class="section-heading-row">
+      <div>
+        <p class="section-kicker">OFFICER ROSTER</p>
+        <p class="section-support">Current assignments for Fall Festival coverage.</p>
+      </div>
+      <div class="coordinator-actions">
+        <details class="coordinator-action-drawer">
+          <summary class="secondary-button compact">ASSIGN OFFICERS</summary>
+          <form method="post" action="{{ url_for('coordinator_assign_volunteer', event_id=event.id) }}">
+            {% if available_volunteers %}
+              <label>
+                AVAILABLE VOLUNTEER
+                <select name="volunteer_id">
+                  {% for volunteer in available_volunteers %}
+                    <option value="{{ volunteer.id }}">{{ volunteer.name }} | {{ volunteer.agency }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+              <label>
+                ASSIGNMENT AREA
+                <select name="assignment_id">
+                  {% for option in assignment_options %}
+                    <option value="{{ option.id }}">{{ option.name }}</option>
+                  {% endfor %}
+                </select>
+              </label>
+              <div class="reassign-actions">
+                <button class="primary-button inline-action" type="submit">ASSIGN OFFICER</button>
+                <button class="secondary-button compact" type="button" data-close-reassign>CANCEL</button>
+              </div>
+            {% else %}
+              <p class="my-events-muted">All available demo volunteers have been assigned.</p>
+            {% endif %}
+          </form>
+        </details>
+        <details class="coordinator-action-drawer">
+          <summary class="secondary-button compact">MESSAGE VOLUNTEERS</summary>
+          <form>
+            <label>
+              RECIPIENTS
+              <select name="message_group">
+                <option>All Volunteers</option>
+                {% for option in assignment_options %}
+                  <option>{{ option.name }}</option>
+                {% endfor %}
+              </select>
+            </label>
+            <label>
+              MESSAGE
+              <textarea name="message">Please review your Fall Festival assignment before event day.</textarea>
+            </label>
+            <div class="reassign-actions">
+              <button class="primary-button inline-action" type="button" data-toast="Demo message sent.">SEND DEMO MESSAGE</button>
+              <button class="secondary-button compact" type="button" data-close-reassign>CANCEL</button>
+            </div>
+          </form>
+        </details>
+      </div>
+    </div>
+
+    <div class="coordinator-roster">
+      {% for officer in roster %}
+        <article class="roster-row{% if officer.id == 'alex-morgan' %} roster-row-featured{% endif %}">
+          <div class="leader-avatar">{{ officer.initials }}</div>
+          <div class="roster-identity">
+            <div class="leader-name-line">
+              <h2>{{ officer.name }}</h2>
+              {% if officer.id == 'alex-morgan' %}<span class="you-badge">ALEX</span>{% endif %}
+            </div>
+            <p>{{ officer.agency }}</p>
+          </div>
+          <div class="roster-assignment">
+            <span>Preferred</span>
+            <strong>{{ officer.preferred_assignment }}</strong>
+          </div>
+          <div class="roster-assignment">
+            <span>Assigned</span>
+            <strong>{{ officer.current_assignment }}</strong>
+          </div>
+          <div class="roster-status">
+            <span class="status-badge {% if officer.status == 'Acknowledged' %}coverage-met{% elif officer.status == 'Assignment Updated' %}priority-need{% else %}flexible{% endif %}">{{ officer.status }}</span>
+          </div>
+          <details class="reassign-panel">
+            <summary>CHANGE</summary>
+            <form method="post" action="{{ url_for('coordinator_reassign_officer', event_id=event.id) }}">
+              <input type="hidden" name="officer_id" value="{{ officer.id }}">
+              <div class="reassign-grid">
+                <div>
+                  <span>OFFICER</span>
+                  <strong>{{ officer.name }}</strong>
+                </div>
+                <div>
+                  <span>CURRENT ASSIGNMENT</span>
+                  <strong>{{ officer.current_assignment }}</strong>
+                </div>
+                <label>
+                  NEW ASSIGNMENT
+                  <select name="new_assignment">
+                    {% for option in assignment_options %}
+                      <option value="{{ option.id }}" {% if option.name == officer.current_assignment %}selected{% endif %}>{{ option.name }}</option>
+                    {% endfor %}
+                  </select>
+                </label>
+                <label>
+                  COORDINATOR NOTE
+                  <textarea name="coordinator_note">Staffing adjustment based on event coverage needs.</textarea>
+                </label>
+              </div>
+              <div class="reassign-actions">
+                <button class="primary-button inline-action" type="submit">CONFIRM REASSIGNMENT</button>
+                <button class="secondary-button compact" type="button" data-close-reassign>CANCEL</button>
+              </div>
+            </form>
+          </details>
+        </article>
+      {% endfor %}
+    </div>
+  </section>
+{% endif %}
+{% endblock %}

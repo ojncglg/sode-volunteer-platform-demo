@@ -1,0 +1,60 @@
+{% extends "coordinator/base.html" %}
+
+{% block title %}Event Operations | G3 Industries{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+  <div>
+    <h1>EVENT OPERATIONS</h1>
+    <p>Upcoming Special Olympics Delaware events and staffing coverage.</p>
+  </div>
+</section>
+
+<section class="coordinator-summary" aria-label="Coordinator operations summary">
+  <article class="detail-card operations-stat">
+    <span>UPCOMING EVENTS</span>
+    <strong>{{ summary.upcoming_events }}</strong>
+  </article>
+  <article class="detail-card operations-stat">
+    <span>SIGNED UP</span>
+    <strong>{{ summary.signed_up }}</strong>
+  </article>
+  <article class="detail-card operations-stat attention">
+    <span>STAFFING GAPS</span>
+    <strong>{{ summary.staffing_gaps }}</strong>
+  </article>
+  <article class="detail-card operations-stat{% if summary.pending_acknowledgments %} attention{% endif %}">
+    <span>PENDING ACKNOWLEDGMENTS</span>
+    <strong>{{ summary.pending_acknowledgments }}</strong>
+  </article>
+</section>
+
+<section class="coordinator-event-list" aria-label="Upcoming event coverage">
+  {% for item in event_cards %}
+    <article class="detail-card coordinator-event-card{% if item.needed > 0 %} staffing-attention-card{% endif %}">
+      <div class="coordinator-event-main">
+        <div class="event-title-row">
+          <h2>{{ item.event.detail_title|default(item.event.name) }}</h2>
+          <span class="status-badge {{ 'coverage-met' if item.status_class == 'filled' else 'priority-need' }}">{{ item.status }}</span>
+        </div>
+        <div class="my-event-meta">
+          <span>{{ item.event.day_label }}</span>
+          <span>{{ item.event.time }}</span>
+          <span>{{ item.event.location }}</span>
+        </div>
+        <div class="coordinator-coverage-line">
+          <span>{{ item.assigned }} / {{ item.required }} officers</span>
+          {% if item.gap_areas %}
+            <small>Needs coverage: {{ item.gap_areas|join(", ") }}</small>
+          {% else %}
+            <small>Minimum staffing requirement satisfied.</small>
+          {% endif %}
+        </div>
+      </div>
+      <div class="my-event-actions">
+        <a class="event-button primary" href="{{ item.detail_url }}">VIEW EVENT</a>
+      </div>
+    </article>
+  {% endfor %}
+</section>
+{% endblock %}

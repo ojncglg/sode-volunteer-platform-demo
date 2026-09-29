@@ -26,7 +26,7 @@
       <a class="nav-pill{% if request.endpoint in ['opportunities', 'opportunity_detail'] %} active{% endif %}" href="{{ url_for('opportunities') }}">Opportunities</a>
       <a class="nav-pill{% if request.endpoint == 'my_events' %} active{% endif %}" href="{{ url_for('my_events') }}">My Events</a>
       <button class="nav-pill" type="button" data-toast="Calendar view is queued for the next officer workflow.">Calendar</button>
-      <button class="nav-pill" type="button" data-toast="Leaderboard is staged for a later demo page.">Leaderboard</button>
+      <a class="nav-pill{% if request.endpoint == 'leaderboard' %} active{% endif %}" href="{{ url_for('leaderboard') }}">Leaderboard</a>
     </nav>
 
     <div class="officer-actions">
@@ -64,6 +64,7 @@
         <div class="dropdown-panel demo-panel" data-menu="demo">
           <h2>Demo Mode</h2>
           <p>Mock data and simulated actions are active.</p>
+          <a class="secondary-button compact demo-menu-action" href="{{ url_for('switch_to_coordinator') }}">COORDINATOR VIEW</a>
           {% if fall_signup and fall_signup.get("signed_up") %}
           <a class="secondary-button compact demo-menu-action" href="{{ url_for('simulate_assignment_change') }}">SIMULATE ASSIGNMENT CHANGE</a>
           {% else %}

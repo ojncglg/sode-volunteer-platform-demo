@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Coordinator | G3 Industries{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body class="officer-page coordinator-page">
+  {% set fall_signup = session.get("demo_signups", {}).get("fall-festival") %}
+  {% set assignment_alert = fall_signup and fall_signup.get("assignment_changed") and not fall_signup.get("assignment_change_acknowledged") %}
+  {% set assignment_acknowledged = fall_signup and fall_signup.get("assignment_changed") and fall_signup.get("assignment_change_acknowledged") %}
+  <header class="officer-topbar coordinator-topbar">
+    <a class="officer-brand" href="{{ url_for('coordinator_dashboard') }}" aria-label="G3 coordinator home">
+      <span class="badge-mark app-brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 2 19 5v6c0 5-3.2 8.8-7 11-3.8-2.2-7-6-7-11V5l7-3Zm0 4.2L8.5 7.7V11c0 3.1 1.7 5.7 3.5 7.1 1.8-1.4 3.5-4 3.5-7.1V7.7L12 6.2Z"/></svg>
+      </span>
+      <span>
+        <strong>{{ coordinator_user.agency }}</strong>
+      </span>
+    </a>
+
+    <nav class="officer-nav" aria-label="Coordinator navigation">
+      <a class="nav-pill{% if request.endpoint in ['coordinator_dashboard', 'coordinator_event_detail'] %} active{% endif %}" href="{{ url_for('coordinator_dashboard') }}">Events</a>
+      <a class="nav-pill{% if request.endpoint == 'coordinator_volunteers' %} active{% endif %}" href="{{ url_for('coordinator_volunteers') }}">Volunteers</a>
+      <a class="nav-pill{% if request.endpoint == 'coordinator_reports' %} active{% endif %}" href="{{ url_for('coordinator_reports') }}">Reports</a>
+    </nav>
+
+    <div class="officer-actions">
+      <div class="menu-group">
+        <button class="icon-button" type="button" data-menu-trigger="coordinator-notifications" aria-label="Open notifications" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a2.4 2.4 0 0 0 2.35-2h-4.7A2.4 2.4 0 0 0 12 22Zm7-5-1.8-2.05V10a5.2 5.2 0 0 0-4-5.06V4a1.2 1.2 0 0 0-2.4 0v.94A5.2 5.2 0 0 0 6.8 10v4.95L5 17v1h14v-1Z"/></svg>
+          {% if assignment_alert %}<span class="notification-dot" aria-hidden="true"></span>{% endif %}
+        </button>
+        <div class="dropdown-panel notifications-panel" data-menu="coordinator-notifications">
+          <h2>Notifications</h2>
+          <div class="notification-item unread">Fall Festival needs 4 officers.</div>
+          <div class="notification-item">Sports Arena staffing below requirement.</div>
+          {% if assignment_acknowledged %}
+          <div class="notification-item">Alex Morgan assignment acknowledged.</div>
+          {% elif assignment_alert %}
+          <div class="notification-item unread">Alex Morgan assignment awaiting acknowledgment.</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="menu-group">
+        <button class="user-chip" type="button" data-menu-trigger="coordinator-user" aria-expanded="false">
+          <span class="avatar">{{ coordinator_user.initials }}</span>
+          <span class="user-copy">
+            <strong>{{ coordinator_user.name }}</strong>
+            <small>Coordinator</small>
+          </span>
+        </button>
+        <div class="dropdown-panel user-panel" data-menu="coordinator-user">
+          <div class="dropdown-title">Demo Coordinator</div>
+          <a href="{{ url_for('logout') }}">Sign Out</a>
+        </div>
+      </div>
+
+      <div class="menu-group">
+        <button class="demo-shell-button" type="button" data-menu-trigger="coordinator-demo" aria-expanded="false">DEMO</button>
+        <div class="dropdown-panel demo-panel" data-menu="coordinator-demo">
+          <h2>Demo Mode</h2>
+          <p>Mock coordinator operations are active.</p>
+          <a class="secondary-button compact demo-menu-action" href="{{ url_for('switch_to_officer') }}">OFFICER VIEW</a>
+          <button type="button" class="secondary-button compact" data-demo-reset>Reset Demo State</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="officer-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="{{ url_for('static', filename='js/opportunities.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

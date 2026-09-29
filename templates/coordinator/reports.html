@@ -1,0 +1,87 @@
+{% extends "coordinator/base.html" %}
+
+{% block title %}Volunteer Hours | Coordinator{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+  <div>
+    <h1>VOLUNTEER HOURS</h1>
+    <p>Every officer, every event, every hour. Since 01/01/2026.</p>
+  </div>
+</section>
+
+<section class="event-tabs report-range-tabs" aria-label="Report date range">
+  <button class="filter-pill active" type="button" data-report-range="since" aria-pressed="true">Since 01/01/2026</button>
+  <button class="filter-pill" type="button" data-report-range="3-months" aria-pressed="false">Last 3 Months</button>
+  <button class="filter-pill" type="button" data-report-range="6-months" aria-pressed="false">Last 6 Months</button>
+  <button class="filter-pill" type="button" data-report-range="custom" aria-pressed="false">Custom</button>
+</section>
+
+<section class="report-summary" aria-label="Volunteer hours summary">
+  {% for metric in summary_metrics %}
+    <article class="detail-card report-metric">
+      <span>{{ metric.label }}</span>
+      <strong>{{ metric.value }}</strong>
+    </article>
+  {% endfor %}
+</section>
+
+<section class="detail-card report-panel">
+  <div class="section-heading-row report-heading-row">
+    <div>
+      <p class="section-kicker">OFFICER HOURS</p>
+      <p class="section-support">Demo credited-hour totals by officer and department.</p>
+    </div>
+    <button class="primary-button inline-action" type="button" data-export-report>EXPORT REPORT</button>
+  </div>
+
+  <div class="report-controls">
+    <label class="report-search">
+      <span>SEARCH</span>
+      <input type="search" placeholder="Search officers..." data-report-search>
+    </label>
+    <label class="report-department-filter">
+      <span>DEPARTMENT</span>
+      <select data-report-department>
+        <option value="all">All Departments</option>
+        {% for department in departments %}
+          <option value="{{ department }}">{{ department }}</option>
+        {% endfor %}
+      </select>
+    </label>
+  </div>
+
+  <div class="report-table-wrap">
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>OFFICER</th>
+          <th>DEPARTMENT</th>
+          <th>EVENTS</th>
+          <th>HOURS</th>
+          <th>CANCELLATIONS</th>
+        </tr>
+      </thead>
+      <tbody data-report-body>
+        {% for officer in officer_rows %}
+          <tr
+            data-report-row
+            data-officer="{{ officer.name|lower }}"
+            data-department="{{ officer.department }}"
+          >
+            <td>
+              <strong>{{ officer.name }}</strong>
+            </td>
+            <td>{{ officer.department }}</td>
+            <td>{{ officer.events }}</td>
+            <td><strong class="report-hours">{{ officer.hours_label }}</strong></td>
+            <td>{{ officer.cancellations }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <div class="empty-state hidden" data-report-empty>No officer records match the current filters.</div>
+</section>
+{% endblock %}

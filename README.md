@@ -2,47 +2,54 @@
 
 Flask-based functional demo for the Special Olympics Delaware volunteer management platform, developed by G3 Industries.
 
-## Current build status
+## Prototype Notice
 
-**Page 1: Officer Access** is approved.
+This repository is a functional product prototype and stakeholder demo. It is not the production application or production architecture.
 
-**Page 2: Volunteer Opportunities** is approved.
+The prototype should be used as an executable specification for product behavior, workflow validation, and engineering handoff.
 
-**Page 3: Fall Festival Event Detail and Signup Flow** is approved.
+## Current Demo Scope
 
-**Page 4: My Events** is approved.
+Implemented officer workflows:
 
-Included demo flow:
+- Officer access, account creation, and verification simulation
+- Volunteer opportunities and filters
+- Fall Festival event detail and signup
+- Preferred assignment and provisional assignment
+- My Events
+- Assignment-change notification and acknowledgment
+- Completed history and volunteer-hour total
+- Officer leaderboard and department leaderboard
 
-- Officer login
-- Create account
-- Official email and agency selection
-- Verification-email sent state
-- Demo shortcut to simulate email verification
-- Login with any credentials in demo mode
-- Officer opportunities dashboard
-- Working opportunity filters
-- Mock staffing coverage data
-- Fall Festival event detail
-- One-page assignment preference signup
-- Session-backed demo signup state
-- My Events operational home
-- Simulated assignment-change acknowledgment
-- Mock completed-event history and volunteer hours
+Implemented coordinator workflows:
 
-## Product assumptions for handoff
+- Event Operations dashboard
+- Fall Festival staffing coverage and roster
+- Assignment management and reassignment
+- Assign Officers demo interaction
+- Message Volunteers demo interaction
+- Cross-role reassignment notification behavior
+- Volunteer Hours report
+- Officer search, department filter, and CSV export
+- Volunteers placeholder
 
-DEMO ASSUMPTION: For the current prototype, an officer's selected assignment preference becomes their provisional assignment upon signup. SODE coordinators will retain the ability to reassign officers before or during an event. Final assignment methodology requires validation with SODE event coordinators.
+Simulated or not production-ready:
 
-Exact assignment staffing numbers are intentionally coordinator-facing. Officers see simplified need statuses in the current prototype.
+- Authentication and authorization
+- Email verification
+- Email, SMS, and notification delivery
+- Persistent database
+- Production reporting pipeline
+- Event-day check-in, checkout, and hour-credit approval
 
-Shift selection and checkout/hour-credit rules remain unresolved and are intentionally not implemented.
+## Documentation
 
-ASSIGNMENT CHANGE DEMO ASSUMPTION: Coordinators may reassign officers after signup. The current prototype requires the officer to acknowledge that they have seen the updated assignment. Acknowledgment does not constitute acceptance or approval. Final reassignment and notification requirements require coordinator validation.
+Read these before production planning:
 
-My Events is intended to become the officer's operational event-day hub, including future check-in and volunteer-hour history.
+- [HANDOFF.md](HANDOFF.md): engineering handoff, route inventory, state model, assumptions, limitations, production requirements, and AWS discussion points.
+- [WORKFLOWS.md](WORKFLOWS.md): current demo flows and future production workflow candidates using Mermaid diagrams.
 
-## Run locally
+## Run Locally
 
 ```bash
 python3 -m venv .venv
@@ -51,13 +58,30 @@ pip install -r requirements.txt
 python app.py
 ```
 
-Open `http://127.0.0.1:5000` in your browser.
+Open:
 
-## Demo rules
+```text
+http://127.0.0.1:5000
+```
 
-This repository is a functional product prototype, not production software. Authentication, email, SMS, persistence, and external integrations are simulated unless explicitly noted.
+Any submitted login credentials enter the demo as Alex Morgan.
 
-The demo will be built page by page. Each page is reviewed and approved before the next page is implemented.
+## Stack
+
+- Python Flask
+- Jinja templates
+- HTML/CSS/JavaScript
+- JSON and Python mock data
+- Flask session state
+
+## Demo Rules
+
+- No production database
+- No real authentication provider
+- No real email or SMS service
+- No cloud infrastructure
+- Demo role switching is for presentation only
+- Reset Demo State restores transient demo state while preserving seeded historical data
 
 ## Brand
 

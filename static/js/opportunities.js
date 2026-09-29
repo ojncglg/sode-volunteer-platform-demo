@@ -112,3 +112,108 @@ function showEventsTab(tabName) {
 eventTabButtons.forEach((button) => {
   button.addEventListener('click', () => showEventsTab(button.dataset.eventsTab));
 });
+
+const leaderboardTabButtons = document.querySelectorAll('[data-leaderboard-tab]');
+const leaderboardPanels = document.querySelectorAll('[data-leaderboard-panel]');
+
+function showLeaderboardTab(tabName) {
+  leaderboardTabButtons.forEach((button) => {
+    const isActive = button.dataset.leaderboardTab === tabName;
+    button.classList.toggle('active', isActive);
+    button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+  });
+
+  leaderboardPanels.forEach((panel) => {
+    panel.classList.toggle('hidden', panel.dataset.leaderboardPanel !== tabName);
+  });
+}
+
+leaderboardTabButtons.forEach((button) => {
+  button.addEventListener('click', () => showLeaderboardTab(button.dataset.leaderboardTab));
+});
+
+document.querySelectorAll('[data-close-reassign]').forEach((button) => {
+  button.addEventListener('click', () => {
+    const panel = button.closest('details');
+    if (panel) panel.open = false;
+  });
+});
+
+const reportRangeButtons = document.querySelectorAll('[data-report-range]');
+
+reportRangeButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    reportRangeButtons.forEach((rangeButton) => {
+      const isActive = rangeButton === button;
+      rangeButton.classList.toggle('active', isActive);
+      rangeButton.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+    showToast(`Report range set to ${button.textContent.trim()}.`);
+  });
+});
+
+const reportSearchInput = document.querySelector('[data-report-search]');
+const reportDepartmentSelect = document.querySelector('[data-report-department]');
+const reportRows = document.querySelectorAll('[data-report-row]');
+const reportEmptyState = document.querySelector('[data-report-empty]');
+const exportReportButton = document.querySelector('[data-export-report]');
+
+function getVisibleReportRows() {
+  return Array.from(reportRows).filter((row) => !row.classList.contains('hidden'));
+}
+
+function applyReportFilters() {
+  if (!reportRows.length) return;
+
+  const searchValue = reportSearchInput ? reportSearchInput.value.trim().toLowerCase() : '';
+  const departmentValue = reportDepartmentSelect ? reportDepartmentSelect.value : 'all';
+  let visibleCount = 0;
+
+  reportRows.forEach((row) => {
+    const matchesSearch = !searchValue || row.dataset.officer.includes(searchValue);
+    const matchesDepartment =
+      departmentValue === 'all' || row.dataset.department === departmentValue;
+    const isVisible = matchesSearch && matchesDepartment;
+
+    row.classList.toggle('hidden', !isVisible);
+    if (isVisible) visibleCount += 1;
+  });
+
+  if (reportEmptyState) reportEmptyState.classList.toggle('hidden', visibleCount > 0);
+}
+
+if (reportSearchInput) reportSearchInput.addEventListener('input', applyReportFilters);
+if (reportDepartmentSelect) reportDepartmentSelect.addEventListener('change', applyReportFilters);
+
+function getReportCellText(row, index) {
+  const cell = row.children[index];
+  return cell ? cell.textContent.trim() : '';
+}
+
+function csvEscape(value) {
+  return `"${String(value).replace(/"/g, '""')}"`;
+}
+
+if (exportReportButton) {
+  exportReportButton.addEventListener('click', () => {
+    const rows = getVisibleReportRows();
+    const headers = ['Officer', 'Department', 'Events', 'Hours', 'Cancellations'];
+    const csvRows = [
+      headers.map(csvEscape).join(','),
+      ...rows.map((row) =>
+        [0, 1, 2, 3, 4].map((index) => csvEscape(getReportCellText(row, index))).join(',')
+      ),
+    ];
+
+    const blob = new Blob([`${csvRows.join('\n')}\n`], { type: 'text/csv;charset=utf-8;' });
+    const downloadUrl = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = 'sode-volunteer-hours-demo.csv';
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(downloadUrl);
+    showToast(`Exported ${rows.length} officer records.`);
+  });
+}

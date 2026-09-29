@@ -1,0 +1,12 @@
+{% extends "coordinator/base.html" %}
+
+{% block title %}{{ title }} | Coordinator{% endblock %}
+
+{% block content %}
+<section class="detail-card coordinator-placeholder-detail">
+  <p class="section-kicker">COORDINATOR WORKFLOW</p>
+  <h1>{{ title }}</h1>
+  <p class="section-support">{{ subtitle }}</p>
+  <a class="event-button primary" href="{{ url_for('coordinator_dashboard') }}">BACK TO EVENTS</a>
+</section>
+{% endblock %}
