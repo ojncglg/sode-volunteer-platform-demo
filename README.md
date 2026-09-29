@@ -8,7 +8,9 @@ Flask-based functional demo for the Special Olympics Delaware volunteer manageme
 
 **Page 2: Volunteer Opportunities** is approved.
 
-**Page 3: Fall Festival Event Detail and Signup Flow** is ready for review.
+**Page 3: Fall Festival Event Detail and Signup Flow** is approved.
+
+**Page 4: My Events** is approved.
 
 Included demo flow:
 
@@ -24,6 +26,9 @@ Included demo flow:
 - Fall Festival event detail
 - One-page assignment preference signup
 - Session-backed demo signup state
+- My Events operational home
+- Simulated assignment-change acknowledgment
+- Mock completed-event history and volunteer hours
 
 ## Product assumptions for handoff
 
@@ -32,6 +37,10 @@ DEMO ASSUMPTION: For the current prototype, an officer's selected assignment pre
 Exact assignment staffing numbers are intentionally coordinator-facing. Officers see simplified need statuses in the current prototype.
 
 Shift selection and checkout/hour-credit rules remain unresolved and are intentionally not implemented.
+
+ASSIGNMENT CHANGE DEMO ASSUMPTION: Coordinators may reassign officers after signup. The current prototype requires the officer to acknowledge that they have seen the updated assignment. Acknowledgment does not constitute acceptance or approval. Final reassignment and notification requirements require coordinator validation.
+
+My Events is intended to become the officer's operational event-day hub, including future check-in and volunteer-hour history.
 
 ## Run locally
 

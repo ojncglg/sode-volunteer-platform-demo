@@ -10,6 +10,8 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 </head>
 <body class="officer-page">
+  {% set fall_signup = session.get("demo_signups", {}).get("fall-festival") %}
+  {% set assignment_alert = fall_signup and fall_signup.get("assignment_changed") and not fall_signup.get("assignment_change_acknowledged") %}
   <header class="officer-topbar">
     <a class="officer-brand" href="{{ url_for('opportunities') }}" aria-label="G3 officer home">
       <span class="badge-mark app-brand-mark" aria-hidden="true">
@@ -21,8 +23,8 @@
     </a>
 
     <nav class="officer-nav" aria-label="Officer navigation">
-      <a class="nav-pill active" href="{{ url_for('opportunities') }}">Opportunities</a>
-      <button class="nav-pill" type="button" data-toast="My Events will be built after signup is approved.">My Events</button>
+      <a class="nav-pill{% if request.endpoint in ['opportunities', 'opportunity_detail'] %} active{% endif %}" href="{{ url_for('opportunities') }}">Opportunities</a>
+      <a class="nav-pill{% if request.endpoint == 'my_events' %} active{% endif %}" href="{{ url_for('my_events') }}">My Events</a>
       <button class="nav-pill" type="button" data-toast="Calendar view is queued for the next officer workflow.">Calendar</button>
       <button class="nav-pill" type="button" data-toast="Leaderboard is staged for a later demo page.">Leaderboard</button>
     </nav>
@@ -35,6 +37,9 @@
         </button>
         <div class="dropdown-panel notifications-panel" data-menu="notifications">
           <h2>Notifications</h2>
+          {% if assignment_alert %}
+          <div class="notification-item unread">Fall Festival assignment updated: Sports Arena.</div>
+          {% endif %}
           <div class="notification-item">Fall Festival signup is now open.</div>
           <div class="notification-item">Reminder: Unified Flag Football is this Saturday.</div>
         </div>
@@ -59,6 +64,11 @@
         <div class="dropdown-panel demo-panel" data-menu="demo">
           <h2>Demo Mode</h2>
           <p>Mock data and simulated actions are active.</p>
+          {% if fall_signup and fall_signup.get("signed_up") %}
+          <a class="secondary-button compact demo-menu-action" href="{{ url_for('simulate_assignment_change') }}">SIMULATE ASSIGNMENT CHANGE</a>
+          {% else %}
+          <button type="button" class="secondary-button compact demo-menu-action" data-toast="Sign up for Fall Festival first.">SIMULATE ASSIGNMENT CHANGE</button>
+          {% endif %}
           <button type="button" class="secondary-button compact" data-demo-reset>Reset Demo State</button>
         </div>
       </div>

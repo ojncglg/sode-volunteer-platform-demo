@@ -607,9 +607,19 @@ select {
   line-height: 1.45;
 }
 
+.notification-item.unread {
+  color: var(--service-gold);
+  font-weight: 800;
+}
+
 .notification-item:first-of-type {
   border-top: 0;
   padding-top: 0;
+}
+
+.demo-menu-action {
+  width: 100%;
+  margin-bottom: 10px;
 }
 
 .officer-main {
@@ -666,6 +676,12 @@ select {
   min-height: 34px;
   padding: 0 16px;
   background: rgba(23, 25, 23, .84);
+}
+
+.filter-pill:focus-visible {
+  outline: 2px solid rgba(234, 207, 101, .74);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(234, 207, 101, .08);
 }
 
 .event-list {
@@ -1256,6 +1272,228 @@ select {
   text-transform: uppercase;
 }
 
+/* My Events */
+.my-events-topline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 220px;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.next-up-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 240px;
+  gap: 18px;
+  padding: 20px;
+  border-left-color: var(--action-gold);
+}
+
+.next-up-card h2,
+.my-event-card h2,
+.completed-event-card h2 {
+  margin: 5px 0 0;
+  color: var(--service-gold);
+  font-family: "Noto Sans Display", sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+.my-event-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 12px;
+  margin-top: 7px;
+  color: #a0a7b3;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.next-assignment,
+.pending-assignment,
+.my-assignment-grid div,
+.next-up-report div {
+  margin-top: 10px;
+}
+
+.next-assignment span,
+.pending-assignment span,
+.my-assignment-grid span,
+.next-up-report span,
+.completed-hours span,
+.assignment-change-block span,
+.hours-card span {
+  display: block;
+  color: #858d9d;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.next-assignment strong,
+.pending-assignment strong,
+.my-assignment-grid strong,
+.next-up-report strong,
+.completed-hours strong {
+  display: block;
+  margin-top: 6px;
+  color: #e3e5ea;
+  font-size: 14px;
+  line-height: 1.35;
+}
+
+.next-assignment strong {
+  color: var(--service-gold);
+  font-size: 18px;
+}
+
+.next-up-report {
+  padding: 14px;
+  border: 1px solid rgba(139, 146, 147, .16);
+  border-radius: 8px;
+  background: rgba(10, 11, 14, .32);
+}
+
+.countdown-chip {
+  width: fit-content;
+  border: 1px solid rgba(234, 207, 101, .32);
+  border-radius: 999px;
+  padding: 5px 8px;
+  color: var(--service-gold);
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .1em;
+}
+
+.next-up-report .event-button {
+  width: 100%;
+  margin-top: 14px;
+}
+
+.hours-card {
+  display: grid;
+  align-content: center;
+  padding: 18px;
+  text-align: center;
+}
+
+.hours-card strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--service-gold);
+  font-family: "Noto Sans Display", sans-serif;
+  font-size: 38px;
+  line-height: 1;
+}
+
+.hours-card small {
+  margin-top: 8px;
+  color: #9aa1ad;
+  font-size: 11px;
+}
+
+.event-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.my-events-list {
+  display: grid;
+  gap: 12px;
+}
+
+.my-event-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 132px;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+}
+
+.assignment-alert-card {
+  border-left-color: var(--action-gold);
+}
+
+.my-assignment-grid {
+  display: grid;
+  grid-template-columns: 1.3fr .7fr 1.2fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.my-assignment-grid div,
+.pending-assignment,
+.assignment-change-block div {
+  padding: 10px;
+  border: 1px solid rgba(139, 146, 147, .16);
+  border-radius: 8px;
+  background: rgba(10, 11, 14, .32);
+}
+
+.my-assignment-grid small {
+  display: block;
+  margin-top: 6px;
+  color: #94c783;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.pending-assignment p,
+.my-events-muted {
+  margin: 6px 0 0;
+  color: #a0a7b3;
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.assignment-change-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.assignment-change-block strong {
+  display: block;
+  margin-top: 7px;
+  color: var(--white);
+  font-size: 16px;
+}
+
+.assignment-change-block div:last-child {
+  border-color: rgba(234, 207, 101, .28);
+}
+
+.my-event-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.completed-event-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 120px;
+  gap: 14px;
+  align-items: center;
+  padding: 14px;
+}
+
+.completed-hours {
+  padding: 10px;
+  border: 1px solid rgba(148, 199, 131, .24);
+  border-radius: 8px;
+  background: rgba(120, 169, 106, .08);
+  text-align: center;
+}
+
+.completed-hours strong {
+  color: #94c783;
+  font-size: 24px;
+}
+
 /* Placeholder Pages */
 .placeholder-page {
   min-height: 100vh;
@@ -1378,12 +1616,24 @@ select {
   }
 
   .event-hero,
-  .confirm-panel {
+  .confirm-panel,
+  .next-up-card,
+  .my-event-card,
+  .completed-event-card {
     grid-template-columns: 1fr;
   }
 
-  .arrival-grid {
+  .arrival-grid,
+  .my-assignment-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .my-events-topline {
+    grid-template-columns: 1fr;
+  }
+
+  .my-event-actions {
+    justify-content: flex-start;
   }
 }
 
@@ -1429,7 +1679,9 @@ select {
 
   .assignment-grid,
   .arrival-grid,
-  .summary-grid {
+  .summary-grid,
+  .my-assignment-grid,
+  .assignment-change-block {
     grid-template-columns: 1fr;
   }
 
@@ -1439,8 +1691,13 @@ select {
 
   .confirm-button,
   .success-actions .secondary-button,
-  .success-actions .primary-button {
+  .success-actions .primary-button,
+  .my-event-actions .event-button {
     width: 100%;
+  }
+
+  .event-tabs {
+    flex-wrap: wrap;
   }
 
   .dropdown-panel {

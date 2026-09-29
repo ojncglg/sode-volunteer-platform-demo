@@ -166,5 +166,28 @@
       "featured": false,
       "assignment_areas": []
     }
+  ],
+  "completed_events": [
+    {
+      "id": "law-enforcement-torch-run-2026",
+      "name": "Law Enforcement Torch Run",
+      "completed_date": "June 12, 2026",
+      "assignment": "Route Support",
+      "hours": 6.5
+    },
+    {
+      "id": "summer-games-2026",
+      "name": "Summer Games",
+      "completed_date": "June 13, 2026",
+      "assignment": "Awards Support",
+      "hours": 8.0
+    },
+    {
+      "id": "unified-sports-event-2026",
+      "name": "Unified Sports Event",
+      "completed_date": "April 18, 2026",
+      "assignment": "Event Operations",
+      "hours": 4.0
+    }
   ]
 }

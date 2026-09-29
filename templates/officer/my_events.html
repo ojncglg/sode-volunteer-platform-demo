@@ -1,0 +1,159 @@
+{% extends "officer/base.html" %}
+
+{% block title %}My Events | G3 Industries{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+  <div>
+    <h1>MY EVENTS</h1>
+    <p>Your upcoming assignments and volunteer history.</p>
+  </div>
+</section>
+
+<section class="my-events-topline">
+  <article class="detail-card next-up-card">
+    <div>
+      <p class="section-kicker">NEXT UP</p>
+      {% if next_up %}
+        <h2>{{ next_up.event.detail_title|default(next_up.event.name) }}</h2>
+        <div class="my-event-meta">
+          <span>{{ next_up.event.day_label }}</span>
+          <span>{{ next_up.event.venue|default(next_up.event.location) }}</span>
+        </div>
+        <div class="next-assignment">
+          <span>Current Assignment</span>
+          <strong>{{ next_up.assignment_name }}</strong>
+        </div>
+      {% else %}
+        <h2>No active event assignment</h2>
+        <p class="my-events-muted">Sign up for an opportunity to populate your next event.</p>
+      {% endif %}
+    </div>
+    {% if next_up %}
+    <div class="next-up-report">
+      {% if next_up.days_until is defined %}
+      <div class="countdown-chip">{{ next_up.days_until }} DAYS AWAY</div>
+      {% endif %}
+      <div>
+        <span>REPORT TIME</span>
+        <strong>{{ next_up.report_time }}</strong>
+      </div>
+      <div>
+        <span>REPORT TO</span>
+        <strong>{{ next_up.report_to }}</strong>
+      </div>
+      {% if next_up.detail_url is defined %}
+      <a class="event-button primary" href="{{ next_up.detail_url }}">VIEW DETAILS</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </article>
+
+  <article class="detail-card hours-card">
+    <span>2026 VOLUNTEER HOURS</span>
+    <strong>{{ "%.1f"|format(total_hours) }}</strong>
+    <small>Historical demo credits</small>
+  </article>
+</section>
+
+<section class="event-tabs" aria-label="My Events tabs">
+  <button class="filter-pill active" type="button" data-events-tab="upcoming">UPCOMING</button>
+  <button class="filter-pill" type="button" data-events-tab="completed">COMPLETED</button>
+</section>
+
+<section class="my-events-panel" data-events-panel="upcoming">
+  <div class="my-events-list">
+    {% for item in upcoming_events %}
+      {% set event = item.event %}
+      {% set signup = item.signup if item.signup is defined else none %}
+      {% set has_update = signup and signup.get("assignment_changed") and not signup.get("assignment_change_acknowledged") %}
+      {% set update_acknowledged = signup and signup.get("assignment_changed") and signup.get("assignment_change_acknowledged") %}
+      <article class="detail-card my-event-card{% if has_update %} assignment-alert-card{% endif %}">
+        <div class="my-event-main">
+          <div class="event-title-row">
+            <h2>{{ event.detail_title|default(event.name) }}</h2>
+            {% if has_update %}<span class="status-badge priority-need">ASSIGNMENT UPDATED</span>{% endif %}
+            {% if update_acknowledged %}
+              <span class="status-badge coverage-met">✓ UPDATE ACKNOWLEDGED</span>
+            {% endif %}
+          </div>
+          <div class="my-event-meta">
+            <span>{{ event.day_label }}</span>
+            <span>{{ event.time }}</span>
+            <span>{{ event.location }}</span>
+          </div>
+
+          {% if has_update %}
+            <div class="assignment-change-block">
+              <div>
+                <span>Previous Assignment</span>
+                <strong>{{ signup.previous_assignment }}</strong>
+              </div>
+              <div>
+                <span>New Assignment</span>
+                <strong>{{ signup.current_assignment_name }}</strong>
+              </div>
+            </div>
+            <p class="my-events-muted">Your Fall Festival assignment has been updated by Special Olympics Delaware.</p>
+            <form method="post" action="{{ url_for('acknowledge_assignment_change') }}">
+              <button class="primary-button inline-action" type="submit">ACKNOWLEDGE UPDATE</button>
+            </form>
+          {% elif item.assignment_pending %}
+            <div class="pending-assignment">
+              <span>ASSIGNMENT</span>
+              <strong>Assignment Pending</strong>
+              <p>{{ item.pending_copy }}</p>
+            </div>
+          {% else %}
+            <div class="my-assignment-grid">
+              <div>
+                <span>YOUR ASSIGNMENT</span>
+                <strong>{{ item.assignment_name }}</strong>
+                <small>{{ "CURRENT ASSIGNMENT" if update_acknowledged else "PROVISIONAL ASSIGNMENT" }}</small>
+              </div>
+              <div>
+                <span>REPORT TIME</span>
+                <strong>{{ item.report_time }}</strong>
+              </div>
+              <div>
+                <span>REPORT TO</span>
+                <strong>{{ item.report_to }}</strong>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+        {% if item.detail_url is defined %}
+        <div class="my-event-actions">
+          <a class="event-button primary" href="{{ item.detail_url }}">VIEW EVENT</a>
+        </div>
+        {% endif %}
+      </article>
+    {% else %}
+      <div class="empty-state">No upcoming events yet.</div>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="my-events-panel hidden" data-events-panel="completed">
+  <div class="my-events-list completed-list">
+    {% for event in completed_events %}
+      <article class="detail-card completed-event-card">
+        <div>
+          <div class="event-title-row">
+            <h2>{{ event.name }}</h2>
+            <span class="status-badge coverage-met">COMPLETED</span>
+          </div>
+          <div class="my-event-meta">
+            <span>Completed {{ event.completed_date }}</span>
+            <span>{{ event.assignment }}</span>
+          </div>
+        </div>
+        <div class="completed-hours">
+          <span>Credited Hours</span>
+          <strong>{{ "%.1f"|format(event.hours) }}</strong>
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

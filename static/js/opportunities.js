@@ -95,3 +95,20 @@ filterButtons.forEach((button) => {
 });
 
 applyFilter('all');
+
+const eventTabButtons = document.querySelectorAll('[data-events-tab]');
+const eventTabPanels = document.querySelectorAll('[data-events-panel]');
+
+function showEventsTab(tabName) {
+  eventTabButtons.forEach((button) => {
+    button.classList.toggle('active', button.dataset.eventsTab === tabName);
+  });
+
+  eventTabPanels.forEach((panel) => {
+    panel.classList.toggle('hidden', panel.dataset.eventsPanel !== tabName);
+  });
+}
+
+eventTabButtons.forEach((button) => {
+  button.addEventListener('click', () => showEventsTab(button.dataset.eventsTab));
+});
