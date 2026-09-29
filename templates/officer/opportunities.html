@@ -1,0 +1,85 @@
+{% extends "officer/base.html" %}
+
+{% block title %}Volunteer Opportunities | G3 Industries{% endblock %}
+
+{% macro event_icon(kind) %}
+  {% if kind == "bowling" %}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a8 8 0 0 0 7.96-8.83A5.2 5.2 0 0 1 16 15a5.3 5.3 0 0 1-5.3-5.3c0-1.57.68-2.99 1.75-3.96A8 8 0 1 0 12 22Zm1.2-13.2a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm3 2.1a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm-.5-4.2a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/></svg>
+  {% elif kind == "football" %}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.3 3.7c2.5 2.5 1.4 7.7-2.6 11.7s-9.2 5.1-11.7 2.6-1.4-7.7 2.6-11.7 9.2-5.1 11.7-2.6ZM8.7 15.3l-1.4 1.4 1 1 1.4-1.4 1.3 1.3 1.4-1.4-1.3-1.3 1.8-1.8 1.3 1.3 1.4-1.4-1.3-1.3 1.8-1.8 1.3 1.3 1.4-1.4-1.3-1.3 1.4-1.4-1-1-1.4 1.4-1.3-1.3-1.4 1.4 1.3 1.3-1.8 1.8-1.3-1.3-1.4 1.4 1.3 1.3-1.8 1.8-1.3-1.3-1.4 1.4 1.3 1.3Z"/></svg>
+  {% elif kind == "basketball" %}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm6.7 6.4a8 8 0 0 1 .9 3.1 14.2 14.2 0 0 0-5.1 1.2 15.1 15.1 0 0 0-1.3-3.1 13.4 13.4 0 0 0 5.5-1.2ZM12 4a8 8 0 0 1 5.2 1.9 11.4 11.4 0 0 1-5.1 1.8 18.6 18.6 0 0 0-2.3-2.8A8 8 0 0 1 12 4ZM7.8 6a15 15 0 0 1 2.1 2 11.5 11.5 0 0 1-5.4-1.2A8.1 8.1 0 0 1 7.8 6Zm-4 6a8 8 0 0 1 .2-1.8 13.3 13.3 0 0 0 7.2-.1c.5.9 1 1.9 1.3 3a16.3 16.3 0 0 0-5.8 4.8A8 8 0 0 1 3.8 12Zm8.2 8a8 8 0 0 1-3.5-.8 14.1 14.1 0 0 1 4.5-3.9 20 20 0 0 1 .5 4.5c-.5.1-1 .2-1.5.2Zm3.5-1a22 22 0 0 0-.7-4.6 12.2 12.2 0 0 1 4.6-.9 8 8 0 0 1-3.9 5.5Z"/></svg>
+  {% elif kind == "plunge" %}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 8.5C7.7 5.7 9.5 3.5 12 2c2.5 1.5 4.3 3.7 5.4 6.5A5.7 5.7 0 0 1 12 16a5.7 5.7 0 0 1-5.4-7.5ZM3 17.8c1.4 0 2.1.8 3.2.8s1.8-.8 3.2-.8 2.1.8 3.2.8 1.8-.8 3.2-.8 2.1.8 3.2.8c.7 0 1.2-.2 2-.6v2.2c-.7.3-1.3.5-2 .5-1.4 0-2.1-.8-3.2-.8s-1.8.8-3.2.8-2.1-.8-3.2-.8-1.8.8-3.2.8-2.1-.8-3.2-.8v-2.1Z"/></svg>
+  {% elif kind == "celebration" %}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 21 3-9.5 5.5 5.5L4 21Zm7.7-8.9 1.4-1.4 4.2 4.2-1.4 1.4-4.2-4.2ZM13 5h2v4h-2V5Zm4.2 5.3 2.8-2.8 1.4 1.4-2.8 2.8-1.4-1.4ZM8.1 6.4 9.5 5l2.8 2.8-1.4 1.4-2.8-2.8Zm8.8-3.5h2v2h-2v-2Zm3.1 10h2v2h-2v-2Z"/></svg>
+  {% else %}
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 19 5v6c0 5-3.2 8.8-7 11-3.8-2.2-7-6-7-11V5l7-3Zm0 4.2L8.5 7.7V11c0 3.1 1.7 5.7 3.5 7.1 1.8-1.4 3.5-4 3.5-7.1V7.7L12 6.2Z"/></svg>
+  {% endif %}
+{% endmacro %}
+
+{% block content %}
+<section class="page-heading">
+  <div>
+    <h1>VOLUNTEER OPPORTUNITIES</h1>
+    <p>Upcoming Special Olympics Delaware events. Pick one and sign up.</p>
+  </div>
+  <div class="result-count" id="result-count">{{ events|length }} events shown</div>
+</section>
+
+<section class="filter-row" aria-label="Opportunity filters">
+  <button class="filter-pill active" type="button" data-filter="all">All</button>
+  <button class="filter-pill" type="button" data-filter="month">This Month</button>
+  <button class="filter-pill" type="button" data-filter="weekend">Weekends</button>
+</section>
+
+<section class="event-list" id="event-list" data-current-month="{{ demo_current_month }}">
+  {% for event in events %}
+    <article
+      class="event-card{% if event.featured %} featured{% endif %}"
+      data-event-card
+      data-month="{{ event.month }}"
+      data-weekend="{{ 'true' if event.is_weekend else 'false' }}"
+    >
+      <div class="event-icon">{{ event_icon(event.icon) }}</div>
+      <div class="event-content">
+        <div class="event-title-row">
+          <h2>{{ event.name }}</h2>
+          {% if event.featured %}<span class="event-tag">Pilot Event</span>{% endif %}
+        </div>
+        <div class="event-meta">
+          <span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h2v2h6V2h2v2h3v18H4V4h3V2Zm11 8H6v10h12V10Z"/></svg>
+            {{ event.day_label }}
+          </span>
+          <span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 5v5.1l3.4 2-.9 1.5-4.5-2.7V7h2Z"/></svg>
+            {{ event.time }}
+          </span>
+          <span>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5.2 7 13 7 13s7-7.8 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/></svg>
+            {{ event.location }}
+          </span>
+        </div>
+        <div class="staffing-block">
+          <div class="staffing-copy">
+            <span>{{ event.staffing_summary }}</span>
+            <strong>{{ event.staffing_status }}</strong>
+          </div>
+          <div class="coverage-bar" aria-label="{{ event.coverage_percent }} percent of minimum staffing">
+            <span style="width: {{ event.coverage_percent }}%"></span>
+          </div>
+        </div>
+      </div>
+      <div class="event-action">
+        {% if event.joined %}
+          <button class="event-button signed" type="button" data-toast="You are already registered for this event.">✓ Signed Up</button>
+        {% else %}
+          <a class="event-button primary" href="{{ url_for('opportunity_detail', event_id=event.id) }}">Sign Up</a>
+        {% endif %}
+      </div>
+    </article>
+  {% endfor %}
+  <div class="empty-state hidden" id="empty-state">No events match this filter.</div>
+</section>
+{% endblock %}

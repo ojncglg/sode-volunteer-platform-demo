@@ -4,7 +4,9 @@ Flask-based functional demo for the Special Olympics Delaware volunteer manageme
 
 ## Current build status
 
-**Page 1: Officer Access** is ready for review.
+**Page 1: Officer Access** is approved.
+
+**Page 2: Volunteer Opportunities** is ready for review.
 
 Included demo flow:
 
@@ -14,7 +16,10 @@ Included demo flow:
 - Verification-email sent state
 - Demo shortcut to simulate email verification
 - Login with any credentials in demo mode
-- Post-login placeholder that preserves the page-by-page approval process
+- Officer opportunities dashboard
+- Working opportunity filters
+- Mock staffing coverage data
+- Temporary event signup placeholder for Page 3
 
 ## Run locally
 

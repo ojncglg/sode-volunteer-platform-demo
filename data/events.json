@@ -1,0 +1,101 @@
+{
+  "demo_current_month": "2026-10",
+  "events": [
+    {
+      "id": "fall-festival",
+      "name": "Fall Festival",
+      "date": "2026-10-31",
+      "day_label": "Saturday, October 31, 2026",
+      "time": "8:00 AM to 4:00 PM",
+      "location": "University of Delaware, Newark, Delaware",
+      "minimum_needed": 8,
+      "signed_up": 12,
+      "maximum_capacity": null,
+      "joined": false,
+      "icon": "festival",
+      "featured": true,
+      "assignment_areas": [
+        "Main Awards",
+        "Bocce Awards",
+        "LDR Awards",
+        "Sports Arena",
+        "Cafeteria"
+      ]
+    },
+    {
+      "id": "bowling-classic",
+      "name": "Bowling Classic",
+      "date": "2026-11-07",
+      "day_label": "Saturday, November 7, 2026",
+      "time": "9:00 AM to 1:00 PM",
+      "location": "Bowlerama, New Castle, Delaware",
+      "minimum_needed": 10,
+      "signed_up": 14,
+      "maximum_capacity": null,
+      "joined": true,
+      "icon": "bowling",
+      "featured": false,
+      "assignment_areas": []
+    },
+    {
+      "id": "unified-flag-football",
+      "name": "Unified Flag Football",
+      "date": "2026-11-14",
+      "day_label": "Saturday, November 14, 2026",
+      "time": "10:30 AM to 3:00 PM",
+      "location": "Caravel Academy Fields, Bear, Delaware",
+      "minimum_needed": 8,
+      "signed_up": 5,
+      "maximum_capacity": null,
+      "joined": false,
+      "icon": "football",
+      "featured": false,
+      "assignment_areas": []
+    },
+    {
+      "id": "holiday-sports-celebration",
+      "name": "Holiday Sports Celebration",
+      "date": "2026-12-11",
+      "day_label": "Friday, December 11, 2026",
+      "time": "5:00 PM to 9:00 PM",
+      "location": "Chase Fieldhouse, Wilmington, Delaware",
+      "minimum_needed": 12,
+      "signed_up": 9,
+      "maximum_capacity": null,
+      "joined": false,
+      "icon": "celebration",
+      "featured": false,
+      "assignment_areas": []
+    },
+    {
+      "id": "winter-basketball-tournament",
+      "name": "Winter Basketball Tournament",
+      "date": "2027-01-16",
+      "day_label": "Sunday, January 16, 2027",
+      "time": "8:30 AM to 5:00 PM",
+      "location": "Dover High School, Dover, Delaware",
+      "minimum_needed": 16,
+      "signed_up": 16,
+      "maximum_capacity": null,
+      "joined": false,
+      "icon": "basketball",
+      "featured": false,
+      "assignment_areas": []
+    },
+    {
+      "id": "polar-bear-plunge",
+      "name": "Polar Bear Plunge Volunteer Detail",
+      "date": "2027-02-07",
+      "day_label": "Sunday, February 7, 2027",
+      "time": "6:30 AM to 12:00 PM",
+      "location": "Rehoboth Beach Boardwalk, Rehoboth Beach, Delaware",
+      "minimum_needed": 20,
+      "signed_up": 18,
+      "maximum_capacity": null,
+      "joined": false,
+      "icon": "plunge",
+      "featured": false,
+      "assignment_areas": []
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}SODE Demo{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Display:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+</head>
+<body class="officer-page">
+  <header class="officer-topbar">
+    <a class="officer-brand" href="{{ url_for('opportunities') }}" aria-label="G3 officer home">
+      <span class="badge-mark app-brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M12 2 19 5v6c0 5-3.2 8.8-7 11-3.8-2.2-7-6-7-11V5l7-3Zm0 4.2L8.5 7.7V11c0 3.1 1.7 5.7 3.5 7.1 1.8-1.4 3.5-4 3.5-7.1V7.7L12 6.2Z"/></svg>
+      </span>
+      <span>
+        <strong>{{ demo_user.agency }}</strong>
+      </span>
+    </a>
+
+    <nav class="officer-nav" aria-label="Officer navigation">
+      <a class="nav-pill active" href="{{ url_for('opportunities') }}">Opportunities</a>
+      <button class="nav-pill" type="button" data-toast="My Events will be built after signup is approved.">My Events</button>
+      <button class="nav-pill" type="button" data-toast="Calendar view is queued for the next officer workflow.">Calendar</button>
+      <button class="nav-pill" type="button" data-toast="Leaderboard is staged for a later demo page.">Leaderboard</button>
+    </nav>
+
+    <div class="officer-actions">
+      <div class="menu-group">
+        <button class="icon-button" type="button" data-menu-trigger="notifications" aria-label="Open notifications" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22a2.4 2.4 0 0 0 2.35-2h-4.7A2.4 2.4 0 0 0 12 22Zm7-5-1.8-2.05V10a5.2 5.2 0 0 0-4-5.06V4a1.2 1.2 0 0 0-2.4 0v.94A5.2 5.2 0 0 0 6.8 10v4.95L5 17v1h14v-1Z"/></svg>
+          <span class="notification-dot" aria-hidden="true"></span>
+        </button>
+        <div class="dropdown-panel notifications-panel" data-menu="notifications">
+          <h2>Notifications</h2>
+          <div class="notification-item">Fall Festival signup is now open.</div>
+          <div class="notification-item">Reminder: Unified Flag Football is this Saturday.</div>
+        </div>
+      </div>
+
+      <div class="menu-group">
+        <button class="user-chip" type="button" data-menu-trigger="user" aria-expanded="false">
+          <span class="avatar">{{ demo_user.initials }}</span>
+          <span class="user-copy">
+            <strong>{{ demo_user.name }}</strong>
+            <small>Officer</small>
+          </span>
+        </button>
+        <div class="dropdown-panel user-panel" data-menu="user">
+          <div class="dropdown-title">Demo Officer</div>
+          <a href="{{ url_for('logout') }}">Sign Out</a>
+        </div>
+      </div>
+
+      <div class="menu-group">
+        <button class="demo-shell-button" type="button" data-menu-trigger="demo" aria-expanded="false">DEMO</button>
+        <div class="dropdown-panel demo-panel" data-menu="demo">
+          <h2>Demo Mode</h2>
+          <p>Mock data and simulated actions are active.</p>
+          <button type="button" class="secondary-button compact" data-demo-reset>Reset Demo State</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="officer-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+  <script src="{{ url_for('static', filename='js/opportunities.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
